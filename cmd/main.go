@@ -1,7 +1,12 @@
 package main
 
-import day1 "aoc2025/puzzles/day1"
+import (
+	day1 "aoc2025/puzzles/day1"
+	day2 "aoc2025/puzzles/day2"
+)
 
 func main() {
-	day1.Run()
+	for _, f := range []func(){day1.Run, day2.Run} {
+		f()
+	}
 }

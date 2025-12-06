@@ -69,7 +69,7 @@ func calcRes2(content string) (int, error) {
 
 func Run() {
 	for i, fun := range []func(string) (int, error){calcRes, calcRes2} {
-		fmt.Printf("=====Puzzle %d=====\n", i+1)
+		fmt.Printf("=====Part %d=====\n", i+1)
 		res, err := fun(tools.GetFileContent(exampleFilePath))
 		if err != nil {
 			fmt.Println(err)
@@ -80,7 +80,7 @@ func Run() {
 			fmt.Println(err)
 		}
 		fmt.Printf("Data result: %d\n", res)
-		fmt.Println("===================")
+		fmt.Println("================")
 		fmt.Println()
 	}
 }
