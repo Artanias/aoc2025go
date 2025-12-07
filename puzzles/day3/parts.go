@@ -2,7 +2,6 @@ package day3
 
 import (
 	tools "aoc2025/internal/tools"
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -34,23 +33,41 @@ func calcRes(content string) (int64, error) {
 
 func calcRes2(content string) (int64, error) {
 	var res int64
+	const maxId int = 12
+	lines := strings.Split(content, "\n")
+	for _, line := range lines {
+		indexes := make([]int, 0, maxId)
+		var i int
+		for len(indexes) != maxId {
+			var availableSpace int = len(line) - i - (maxId - len(indexes)) + 1
+			var maxIndex int
+			var maxNumber int
+			for j := i; j < i+availableSpace; j++ {
+				number, err := strconv.Atoi(string(line[j]))
+				if err != nil {
+					return 0, err
+				}
+				if number > maxNumber {
+					maxIndex = j
+					maxNumber = number
+				}
+			}
+			indexes = append(indexes, maxIndex)
+			i = maxIndex + 1
+		}
+		numberStr := ""
+		for j := 0; j < maxId; j++ {
+			numberStr = numberStr + string(line[indexes[j]])
+		}
+		number, err := strconv.ParseInt(numberStr, 10, 64)
+		if err != nil {
+			return 0, err
+		}
+		res += number
+	}
 	return res, nil
 }
 
 func Run() {
-	for i, fun := range []func(string) (int64, error){calcRes, calcRes2} {
-		fmt.Printf("=====Part %d=====\n", i+1)
-		res, err := fun(tools.GetFileContent(exampleFilePath))
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Printf("Example result: %d\n", res)
-		res, err = fun(tools.GetFileContent(dataFilePath))
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Printf("Data result: %d\n", res)
-		fmt.Println("================")
-		fmt.Println()
-	}
+	tools.Run([]func(string) (int64, error){calcRes, calcRes2}, []string{exampleFilePath, dataFilePath})
 }
