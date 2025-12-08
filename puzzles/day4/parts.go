@@ -8,7 +8,7 @@ import (
 
 var puzzlePath string = filepath.Join(puzzles.PuzzlePath, "day4")
 var exampleFilePath string = filepath.Join(puzzlePath, "example.txt")
-var dataFilePath string = filepath.Join(puzzlePath, "/data.txt")
+var dataFilePath string = filepath.Join(puzzlePath, "data.txt")
 
 func calcRes(content string) (int64, error) {
 	var res int64

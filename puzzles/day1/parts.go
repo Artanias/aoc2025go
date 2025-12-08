@@ -2,17 +2,19 @@ package day1
 
 import (
 	tools "aoc2025/internal/tools"
-	"fmt"
+	"aoc2025/puzzles"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
 
-const exampleFilePath string = "puzzles/day1/example.txt"
-const dataFilePath string = "puzzles/day1/data.txt"
+var puzzlePath string = filepath.Join(puzzles.PuzzlePath, "day1")
+var exampleFilePath string = filepath.Join(puzzlePath, "example.txt")
+var dataFilePath string = filepath.Join(puzzlePath, "data.txt")
 
-func calcRes(content string) (int, error) {
+func calcRes(content string) (int64, error) {
 	startPos := 50
-	res := 0
+	var res int64
 	for _, line := range strings.Split(content, "\n") {
 		rotation := string(line[0])
 		positions, err := strconv.Atoi(line[1:])
@@ -33,12 +35,12 @@ func calcRes(content string) (int, error) {
 	return res, nil
 }
 
-func calcRes2(content string) (int, error) {
-	startPos := 50
-	res := 0
+func calcRes2(content string) (int64, error) {
+	var startPos int64 = 50
+	var res int64
 	for _, line := range strings.Split(content, "\n") {
 		rotation := string(line[0])
-		positions, err := strconv.Atoi(line[1:])
+		positions, err := strconv.ParseInt(line[1:], 10, 64)
 		if err != nil {
 			return 0, err
 		}
@@ -68,19 +70,9 @@ func calcRes2(content string) (int, error) {
 }
 
 func Run() {
-	for i, fun := range []func(string) (int, error){calcRes, calcRes2} {
-		fmt.Printf("=====Part %d=====\n", i+1)
-		res, err := fun(tools.GetFileContent(exampleFilePath))
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Printf("Example result: %d\n", res)
-		res, err = fun(tools.GetFileContent(dataFilePath))
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Printf("Data result: %d\n", res)
-		fmt.Println("================")
-		fmt.Println()
-	}
+	tools.Run(
+		[]func(string) (int64, error){calcRes, calcRes2},
+		[]string{exampleFilePath, dataFilePath},
+		[]int64{3, 1097, 6, 7101},
+	)
 }

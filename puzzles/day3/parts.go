@@ -2,12 +2,15 @@ package day3
 
 import (
 	tools "aoc2025/internal/tools"
+	"aoc2025/puzzles"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
 
-const exampleFilePath string = "puzzles/day3/example.txt"
-const dataFilePath string = "puzzles/day3/data.txt"
+var puzzlePath string = filepath.Join(puzzles.PuzzlePath, "day3")
+var exampleFilePath string = filepath.Join(puzzlePath, "example.txt")
+var dataFilePath string = filepath.Join(puzzlePath, "data.txt")
 
 func calcRes(content string) (int64, error) {
 	var res int64

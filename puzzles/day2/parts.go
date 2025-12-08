@@ -2,15 +2,17 @@ package day2
 
 import (
 	tools "aoc2025/internal/tools"
-	"fmt"
+	"aoc2025/puzzles"
 	"math"
+	"path/filepath"
 	"slices"
 	"strconv"
 	"strings"
 )
 
-const exampleFilePath string = "puzzles/day2/example.txt"
-const dataFilePath string = "puzzles/day2/data.txt"
+var puzzlePath string = filepath.Join(puzzles.PuzzlePath, "day2")
+var exampleFilePath string = filepath.Join(puzzlePath, "example.txt")
+var dataFilePath string = filepath.Join(puzzlePath, "data.txt")
 
 func cntDigits(number int64) (cnt int64) {
 	for ; number != 0; number /= 10 {
@@ -109,19 +111,9 @@ func calcRes2(content string) (int64, error) {
 }
 
 func Run() {
-	for i, fun := range []func(string) (int64, error){calcRes, calcRes2} {
-		fmt.Printf("=====Part %d=====\n", i+1)
-		res, err := fun(tools.GetFileContent(exampleFilePath))
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Printf("Example result: %d\n", res)
-		res, err = fun(tools.GetFileContent(dataFilePath))
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Printf("Data result: %d\n", res)
-		fmt.Println("================")
-		fmt.Println()
-	}
+	tools.Run(
+		[]func(string) (int64, error){calcRes, calcRes2},
+		[]string{exampleFilePath, dataFilePath},
+		[]int64{1227775554, 21139440284, 4174379265, 38731915928},
+	)
 }
