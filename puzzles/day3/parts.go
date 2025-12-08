@@ -69,5 +69,9 @@ func calcRes2(content string) (int64, error) {
 }
 
 func Run() {
-	tools.Run([]func(string) (int64, error){calcRes, calcRes2}, []string{exampleFilePath, dataFilePath})
+	tools.Run(
+		[]func(string) (int64, error){calcRes, calcRes2},
+		[]string{exampleFilePath, dataFilePath},
+		[]int64{357, 17766, 3121910778619, 176582889354075},
+	)
 }
