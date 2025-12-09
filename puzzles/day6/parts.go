@@ -44,6 +44,45 @@ func calcRes(content string) (int64, error) {
 
 func calcRes2(content string) (int64, error) {
 	var res int64
+	lines := strings.Split(content, "\n")
+	rows := len(lines)
+	ops := strings.Split(strings.ReplaceAll(lines[rows-1], " ", ""), "")
+	results := make([]int64, 0, len(ops))
+	field := tools.MakeField(content)
+	op := ""
+	for j := 0; j < field.Columns; j++ {
+		number := ""
+		for i := 0; i < field.Rows-1; i++ {
+			if field.F[i][j] != " " {
+				number += field.F[i][j]
+			}
+		}
+		if number == "" {
+			continue
+		}
+		if field.F[field.Rows-1][j] != " " {
+			op = field.F[field.Rows-1][j]
+			switch op {
+			case "*":
+				results = append(results, 1)
+			case "+":
+				results = append(results, 0)
+			}
+		}
+		numberInt, err := strconv.ParseInt(number, 10, 64)
+		if err != nil {
+			return 0, err
+		}
+		switch op {
+		case "*":
+			results[len(results)-1] *= numberInt
+		case "+":
+			results[len(results)-1] += numberInt
+		}
+	}
+	for _, result := range results {
+		res += result
+	}
 	return res, nil
 }
 
@@ -51,6 +90,6 @@ func Run() {
 	tools.Run(
 		[]func(string) (int64, error){calcRes, calcRes2},
 		[]string{exampleFilePath, dataFilePath},
-		[]int64{4277556, 5524274308182, 0, 0},
+		[]int64{4277556, 5524274308182, 3263827, 8843673199391},
 	)
 }

@@ -53,11 +53,20 @@ func MakeField(content string) *Field {
 	lines := strings.Split(content, "\n")
 	rows := len(lines)
 	columns := len(lines[0])
+	for _, line := range lines {
+		if len(line) > columns {
+			columns = len(line)
+		}
+	}
 	field := make([][]string, rows, rows)
 	for i := 0; i < rows; i++ {
 		field[i] = make([]string, columns, columns)
 		for j := 0; j < columns; j++ {
-			field[i][j] = string(lines[i][j])
+			if j >= len(lines[i]) {
+				field[i][j] = " "
+			} else {
+				field[i][j] = string(lines[i][j])
+			}
 		}
 	}
 	return &Field{field, rows, columns}
