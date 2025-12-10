@@ -7,6 +7,7 @@ import (
 	day4 "aoc2025/puzzles/day4"
 	day5 "aoc2025/puzzles/day5"
 	day6 "aoc2025/puzzles/day6"
+	day7 "aoc2025/puzzles/day7"
 )
 
 func main() {
@@ -17,6 +18,7 @@ func main() {
 		day4.Run,
 		day5.Run,
 		day6.Run,
+		day7.Run,
 	} {
 		f()
 	}

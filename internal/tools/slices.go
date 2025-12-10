@@ -5,6 +5,11 @@ import (
 	"strings"
 )
 
+type Point struct {
+	X int
+	Y int
+}
+
 type Field struct {
 	F       [][]string
 	Rows    int
@@ -47,6 +52,18 @@ func (f *Field) GetNear(row int, column int) map[string]int {
 		result[f.F[row][column+1]] += 1
 	}
 	return result
+}
+
+func (f *Field) FindPositions(value string) []Point {
+	positions := make([]Point, 0)
+	for row := 0; row < f.Rows; row++ {
+		for column := 0; column < f.Columns; column++ {
+			if f.F[row][column] == value {
+				positions = append(positions, Point{X: row, Y: column})
+			}
+		}
+	}
+	return positions
 }
 
 func MakeField(content string) *Field {
