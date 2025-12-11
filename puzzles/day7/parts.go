@@ -66,10 +66,10 @@ func calcRes2(content string) (int64, error) {
 		if point.X-1 < 0 {
 			memory[point] = 1
 		}
-		if point.X+1 == field.Rows {
+		if point.X == field.Rows {
 			continue
 		}
-		if field.F[point.X+1][point.Y] == "^" {
+		if point.X+1 < field.Rows && field.F[point.X+1][point.Y] == "^" {
 			positions = append(positions, tools.Point{X: point.X + 1, Y: point.Y - 1})
 			positions = append(positions, tools.Point{X: point.X + 1, Y: point.Y + 1})
 		} else {
@@ -96,7 +96,7 @@ func calcRes2(content string) (int64, error) {
 		}
 	}
 	for j := 0; j < field.Columns; j++ {
-		res += memory[tools.Point{X: field.Rows - 2, Y: j}]
+		res += memory[tools.Point{X: field.Rows - 1, Y: j}]
 	}
 	return res, nil
 }
