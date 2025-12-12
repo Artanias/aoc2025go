@@ -2,12 +2,34 @@ package tools
 
 import (
 	"fmt"
+	"math"
 	"strings"
 )
 
-type Point struct {
+type Point2D struct {
 	X int
 	Y int
+}
+
+type Point3D struct {
+	X int
+	Y int
+	Z int
+}
+
+func (p *Point3D) Distance(other Point3D) int {
+	return int(
+		math.Sqrt(
+			float64(
+				(p.X-other.X)*(p.X-other.X) + (p.Y-other.Y)*(p.Y-other.Y) + (p.Z-other.Z)*(p.Z-other.Z),
+			),
+		),
+	)
+}
+
+type PointsPair struct {
+	P1 Point3D
+	P2 Point3D
 }
 
 type Field struct {
@@ -54,12 +76,12 @@ func (f *Field) GetNear(row int, column int) map[string]int {
 	return result
 }
 
-func (f *Field) FindPositions(value string) []Point {
-	positions := make([]Point, 0)
+func (f *Field) FindPositions(value string) []Point2D {
+	positions := make([]Point2D, 0)
 	for row := 0; row < f.Rows; row++ {
 		for column := 0; column < f.Columns; column++ {
 			if f.F[row][column] == value {
-				positions = append(positions, Point{X: row, Y: column})
+				positions = append(positions, Point2D{X: row, Y: column})
 			}
 		}
 	}

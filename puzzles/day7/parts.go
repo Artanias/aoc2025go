@@ -14,7 +14,7 @@ var dataFilePath string = filepath.Join(puzzlePath, "data.txt")
 func calcRes(content string) (int64, error) {
 	field := tools.MakeField(content)
 	positions := field.FindPositions("S")
-	uniqueSplits := make([]tools.Point, 0)
+	uniqueSplits := make([]tools.Point2D, 0)
 	if len(positions) != 1 {
 		return 0, fmt.Errorf("invalid number of S positions in example file - %d", len(positions))
 	}
@@ -38,11 +38,11 @@ func calcRes(content string) (int64, error) {
 			}
 			if uniq {
 				uniqueSplits = append(uniqueSplits, point)
-				positions = append(positions, tools.Point{X: point.X + 1, Y: point.Y - 1})
-				positions = append(positions, tools.Point{X: point.X + 1, Y: point.Y + 1})
+				positions = append(positions, tools.Point2D{X: point.X + 1, Y: point.Y - 1})
+				positions = append(positions, tools.Point2D{X: point.X + 1, Y: point.Y + 1})
 			}
 		} else {
-			positions = append(positions, tools.Point{X: point.X + 1, Y: point.Y})
+			positions = append(positions, tools.Point2D{X: point.X + 1, Y: point.Y})
 		}
 	}
 	return int64(len(uniqueSplits)), nil
@@ -55,7 +55,7 @@ func calcRes2(content string) (int64, error) {
 	if len(positions) != 1 {
 		return 0, fmt.Errorf("invalid number of S positions in example file - %d", len(positions))
 	}
-	memory := make(map[tools.Point]int64, 0)
+	memory := make(map[tools.Point2D]int64, 0)
 	for len(positions) != 0 {
 		point := positions[0]
 		positions = positions[1:]
@@ -70,33 +70,33 @@ func calcRes2(content string) (int64, error) {
 			continue
 		}
 		if point.X+1 < field.Rows && field.F[point.X+1][point.Y] == "^" {
-			positions = append(positions, tools.Point{X: point.X + 1, Y: point.Y - 1})
-			positions = append(positions, tools.Point{X: point.X + 1, Y: point.Y + 1})
+			positions = append(positions, tools.Point2D{X: point.X + 1, Y: point.Y - 1})
+			positions = append(positions, tools.Point2D{X: point.X + 1, Y: point.Y + 1})
 		} else {
-			positions = append(positions, tools.Point{X: point.X + 1, Y: point.Y})
+			positions = append(positions, tools.Point2D{X: point.X + 1, Y: point.Y})
 		}
 		if point.X-1 < 0 {
 			continue
 		}
 		if point.Y-1 >= 0 && field.F[point.X][point.Y-1] == "^" {
-			v, ok := memory[tools.Point{X: point.X - 1, Y: point.Y - 1}]
+			v, ok := memory[tools.Point2D{X: point.X - 1, Y: point.Y - 1}]
 			if ok {
 				memory[point] += v
 			}
 		}
 		if point.Y+1 < field.Columns && field.F[point.X][point.Y+1] == "^" {
-			v, ok := memory[tools.Point{X: point.X - 1, Y: point.Y + 1}]
+			v, ok := memory[tools.Point2D{X: point.X - 1, Y: point.Y + 1}]
 			if ok {
 				memory[point] += v
 			}
 		}
-		v, ok := memory[tools.Point{X: point.X - 1, Y: point.Y}]
+		v, ok := memory[tools.Point2D{X: point.X - 1, Y: point.Y}]
 		if ok {
 			memory[point] += v
 		}
 	}
 	for j := 0; j < field.Columns; j++ {
-		res += memory[tools.Point{X: field.Rows - 1, Y: j}]
+		res += memory[tools.Point2D{X: field.Rows - 1, Y: j}]
 	}
 	return res, nil
 }
