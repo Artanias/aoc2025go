@@ -11,6 +11,10 @@ type Point2D struct {
 	Y int
 }
 
+func (p *Point2D) Square(other Point2D) int {
+	return (abs(p.X-other.X) + 1) * (abs(p.Y-other.Y) + 1)
+}
+
 type Point3D struct {
 	X int
 	Y int
@@ -109,4 +113,11 @@ func MakeField(content string) *Field {
 		}
 	}
 	return &Field{field, rows, columns}
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }

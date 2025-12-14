@@ -9,10 +9,12 @@ import (
 	day6 "aoc2025/puzzles/day6"
 	day7 "aoc2025/puzzles/day7"
 	day8 "aoc2025/puzzles/day8"
+	day9 "aoc2025/puzzles/day9"
+	"fmt"
 )
 
 func main() {
-	for _, f := range []func(){
+	for i, f := range []func(){
 		day1.Run,
 		day2.Run,
 		day3.Run,
@@ -21,7 +23,9 @@ func main() {
 		day6.Run,
 		day7.Run,
 		day8.Run,
+		day9.Run,
 	} {
+		fmt.Println("=======", "DAY", i+1, "RUNNING", "=======")
 		f()
 	}
 }
